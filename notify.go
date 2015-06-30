@@ -1,7 +1,7 @@
 package notifiers
 
 import (
-	"github.com/hsheth2/logs"
+//"github.com/hsheth2/logs"
 	"sync"
 )
 
@@ -23,7 +23,7 @@ func (n *Notifier) Register(bufSize int) chan interface{} {
 
 	out := make(chan interface{}, bufSize)
 	n.outputs = append(n.outputs, out)
-	logs.Trace.Println("notify reg")
+	//logs.Trace.Println("notify reg")
 	return out
 }
 
@@ -40,7 +40,7 @@ func (n *Notifier) Unregister(remove chan interface{}) {
 		}
 	}
 	n.outputs = update
-	logs.Trace.Println("notify unreg")
+	//logs.Trace.Println("notify unreg")
 }
 
 func (n *Notifier) Broadcast(val interface{}) {
@@ -50,7 +50,7 @@ func (n *Notifier) Broadcast(val interface{}) {
 	for _, out := range n.outputs {
 		go func(out chan interface{}, val interface{}) { out <- val }(out, val)
 	}
-	logs.Trace.Println("broadcasted")
+	//logs.Trace.Println("broadcasted")
 }
 
 // A helper function for the clients
