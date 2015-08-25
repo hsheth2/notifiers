@@ -1,7 +1,7 @@
 package notifiers
 
 import (
-//"github.com/hsheth2/logs"
+	//"github.com/hsheth2/logs"
 	"sync"
 )
 
@@ -48,7 +48,10 @@ func (n *Notifier) Broadcast(val interface{}) {
 	defer n.lock.Unlock()
 
 	for _, out := range n.outputs {
-		go func(out chan interface{}, val interface{}) { out <- val }(out, val)
+		select {
+		case out <- val:
+		default:
+		}
 	}
 	//logs.Trace.Println("broadcasted")
 }
