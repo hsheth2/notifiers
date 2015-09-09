@@ -43,6 +43,12 @@ func (n *Notifier) Unregister(remove chan interface{}) {
 	//logs.Trace.Println("notify unreg")
 }
 
+func (n *Notifier) Wait() interface{} {
+	r := n.Register(1)
+	defer n.Unregister(r)
+	return <-r
+}
+
 func (n *Notifier) Broadcast(val interface{}) {
 	n.lock.Lock()
 	defer n.lock.Unlock()
